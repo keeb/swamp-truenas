@@ -1,0 +1,23 @@
+manifestVersion: 1
+name: "@keeb/truenas"
+version: "2026.07.09.1"
+description: "TrueNAS SCALE management: decomposed, per-object typed resources for system, storage, and sharing over the REST API v2.0, queryable with CEL (https://github.com/keeb/swamp-truenas)"
+repository: https://github.com/keeb/swamp-truenas
+additionalFiles:
+  - README.md
+  - LICENSE.txt
+# Universal — the models are pure fetch() against the TrueNAS REST API.
+platforms: []
+labels:
+  - truenas
+  - storage
+  - nas
+  - infrastructure
+models:
+  - system.ts
+  - storage.ts
+  - sharing.ts
+  - accounts.ts
+  - network.ts
+  - apps.ts
+  - protection.ts
