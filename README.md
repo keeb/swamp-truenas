@@ -13,11 +13,19 @@ v2.0 is first-class. It should work on newer releases that still expose REST v2.
 
 ## Models
 
-| Type                    | Resources (typed)          | Key methods                                                                          |
-| ----------------------- | -------------------------- | ------------------------------------------------------------------------------------ |
-| `@keeb/truenas/system`  | `info`, `alert`, `service` | `discover`, `service_start`, `service_stop`, `service_restart`                       |
-| `@keeb/truenas/storage` | `pool`, `dataset`, `snapshot` | `discover`, `discover_snapshots`, `create_dataset`, `delete_dataset`, `create_snapshot`, `delete_snapshot` |
-| `@keeb/truenas/sharing` | `smb`, `nfs`, `iscsiTarget` | `discover`, `smb_set_enabled`, `nfs_set_enabled`                                      |
+| Type                       | Resources (typed)                                       | Key methods                                                                                                             |
+| -------------------------- | ------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------- |
+| `@keeb/truenas/system`     | `info`, `alert`, `service`                              | `discover`, `service_start`, `service_stop`, `service_restart`                                                          |
+| `@keeb/truenas/storage`    | `pool`, `dataset`, `snapshot`, `disk`                   | `discover`, `discover_disks`, `discover_snapshots`, `create_dataset`, `delete_dataset`, `create_snapshot`, `delete_snapshot` |
+| `@keeb/truenas/sharing`    | `smb`, `nfs`, `iscsiTarget`                             | `discover`, `smb_set_enabled`, `nfs_set_enabled`                                                                        |
+| `@keeb/truenas/accounts`   | `user`, `group`                                         | `discover`                                                                                                              |
+| `@keeb/truenas/network`    | `interface`                                             | `discover`                                                                                                              |
+| `@keeb/truenas/apps`       | `app`                                                   | `discover`, `set_replicas`                                                                                              |
+| `@keeb/truenas/protection` | `snapshotTask`, `replication`, `cloudSync`, `rsyncTask` | `discover`                                                                                                              |
+
+The `storage` `pool` resource carries redundancy (vdev layout, fault tolerance)
+and last-scrub state; `discover_disks` adds one `disk` resource per drive with
+SMART status and temperature.
 
 ## Setup
 
@@ -58,7 +66,7 @@ swamp data query 'modelName == "tn-system" && specName == "service" && attribute
 
 ## How it works
 
-All three models share `lib/client.ts`, a thin `TrueNasClient` over `fetch` that
+All models share `lib/client.ts`, a thin `TrueNasClient` over `fetch` that
 adds Bearer auth, JSON encoding, and error shaping (it surfaces the TrueNAS
 middleware's own validation messages). Each model's `discover` fans out across
 the relevant endpoints and writes one typed resource per object; size fields are

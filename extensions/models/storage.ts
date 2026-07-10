@@ -286,7 +286,7 @@ const encId = (id: string) => encodeURIComponent(id);
 /** Model definition for TrueNAS ZFS storage management. */
 export const model = {
   type: "@keeb/truenas/storage",
-  version: "2026.07.09.2",
+  version: "2026.07.09.1",
   globalArguments: GlobalArgsSchema,
   resources: {
     pool: {
